@@ -1,8 +1,10 @@
+### Navigation
 import os 
 os.getcwd()
 os.chdir('/Users/steffenvollert/Desktop/portfolio_metrics')
 
 
+### Compiling
 import py_compile
 py_compile.compile("mymodule.py")
 
@@ -10,8 +12,33 @@ import compileall
 compileall.compile_dir("mylib", force=1)
 
 
-# fetch data and create DB file
-
+### Fetch data and create DB file
 import data_processors
-data_processors.populate_db("data/SPshortlist.csv", "2000-01-01", "2013-01-01", "data/stocks.db")
-data_processors.populate_db(symbols=["^GSPC"], startdate="2000-01-01", enddate="2013-01-01", dbfilename="data/stocks.db")
+data_processors.populate_db("data_sources/SPshortlist.csv", "2000-01-01", "2013-01-01", "data_sources/stocks.db")
+data_processors.populate_db(symbols=["^GSPC"], startdate="2000-01-01", enddate="2013-01-01", dbfilename="data_sources/stocks.db")
+
+
+### Stock Object
+import markowitz
+s = markowitz.Stock("AAPL", startdate="2000-01-01", enddate="2013-01-01", dbfilename="data_sources/stocks.db", bench="^GSPC")
+s.annual_volatility
+s.beta
+s.annualized_adjusted_return
+s.ratearray
+
+
+### Portfolio Object
+import markowitz
+rt = 2.0 # Risk tolerance, equivalent to a 200% annual volatility
+drt = rt/252.0 # Convert to a daily volatility using trading days per year
+lb = 0.0 # lower bound of allowed weighting for an asset
+ub = 1.0 # upper bound of allowed weighting for an asset
+p.optimize_portfolio(rt=drt, lower_bound_weight=lb, upper_bound_weight=ub)   Optimization completed in [ 5 ] iterations.
+==> Optimized Variance: 0.155 and Portfolio Return: 54.093%
+
+rt = 0.5 # Risk tolerance, equivalent to a 50% annual volatility
+drt = rt/252.0 # Convert to a daily volatility using trading days per year
+del p.port_opt # Clear out the cached optimized portfolio
+p.optimize_portfolio(rt=drt, lower_bound_weight=lb, upper_bound_weight=ub)
+==> Optimized Variance: 0.103 and Portfolio Return: 44.936%
+

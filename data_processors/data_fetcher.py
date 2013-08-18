@@ -7,7 +7,6 @@
 # library imports
 import datetime, time
 from urllib import urlopen
-
 import numpy as np
 
 # Schema definition
@@ -37,6 +36,7 @@ def get_yahoo_data(symbol, startdate=None, enddate=None, period='d', datefmt="%Y
     else:
         enddate = datetime.datetime.strptime(enddate, datefmt)
     
+    # definition of Yahoo! API call
     url = "http://ichart.finance.yahoo.com/table.csv?s=%s&a=%d&b=%d&c=%d&"\
               "d=%d&e=%d&f=%d&y=0&g=%s&ignore=.csv" % (symbol,
               startdate.month-1, startdate.day, startdate.year,
@@ -45,12 +45,15 @@ def get_yahoo_data(symbol, startdate=None, enddate=None, period='d', datefmt="%Y
     filehandle = urlopen(url)
     lines = filehandle.readlines()
     
+    # array holding te returned Yahoo! data
     data = []
     
     for line in lines[1:]:
         
+        # definition of seperator
         items = line.strip().split(',')
         
+        # catch error if there is an item with less than 7 properties
         if len(items)!=7:
             continue
         
