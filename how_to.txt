@@ -1,0 +1,17 @@
+import os 
+os.getcwd()
+os.chdir('/Users/steffenvollert/Desktop/portfolio_metrics')
+
+
+import py_compile
+py_compile.compile("mymodule.py")
+
+import compileall
+compileall.compile_dir("mylib", force=1)
+
+
+# fetch data and create DB file
+
+import data_processors
+data_processors.populate_db("data/SPshortlist.csv", "2000-01-01", "2013-01-01", "data/stocks.db")
+data_processors.populate_db(symbols=["^GSPC"], startdate="2000-01-01", enddate="2013-01-01", dbfilename="data/stocks.db")
