@@ -17,14 +17,13 @@ price_schema = np.dtype({'names':['symbol', 'date', 'open', 'high', 'low', 'clos
                          'formats':['S8', 'M8', float, float, float, float, float, float]})
 
 def align_dates(olddates, olddata, newdates):
-    """ Function to align data given two differing date streams.
-        Parameters:
-            olddates: array of datetime64 type representing dates with misalignment
-            olddata: array floats representing data for olddates
-            newdates: array of datetime64 type representing new dates with which we should align.
-        Returns:
-            newdata: array of data aligned with newdates
-    """
+    # Function to align data given two differing date streams.
+    # Parameters:
+    #   olddates: array of datetime64 type representing dates with misalignment
+    #   olddata: array floats representing data for olddates
+    #   newdates: array of datetime64 type representing new dates with which we should align.
+    # Returns:
+    #   newdata: array of data aligned with newdates
 
     olddatefloats = np.array([data_processors.adapt_datetime(dt) for dt in olddates.tolist()])
     newdatefloats = np.array([data_processors.adapt_datetime(dt) for dt in newdates.tolist()])
